@@ -12,6 +12,9 @@
 
     "jsList" : [
         "src/resource.js",
+        "src/config.js",
+        "src/loader.js",
+        "src/SelectScene.js",
         "src/enterLoading.js",
         "src/app.js"
     ]

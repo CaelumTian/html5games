@@ -3,7 +3,6 @@ var StartScene = cc.Scene.extend({
     _bg : null,
     _logo : null,
     _linkChain : null,
-    _startButton : null,
     onEnter : function() {
         this._super();
         var centerX = cc.winSize.width / 2,
@@ -68,25 +67,21 @@ var StartScene = cc.Scene.extend({
         var centerX = cc.winSize.width / 2,
             centerY = cc.winSize.height / 2;
 
-        var linkChain = this._linkChain = new cc.Sprite("res/StartGame/linkChain.png");    //按钮
-        var startMenu = new cc.MenuItemImage("res/StartGame/welbtn.png", "res/StartGame/welbtn.png", "res/StartGame/welbtn.png", this.startGame, this);    //链条加载
-        var startButton = new cc.Menu(startMenu);
-        
+        var linkChain = this._linkChain = new cc.Sprite("res/StartGame/linkChain.png");    //链条图片
+        var startMenu = new cc.MenuItemImage("res/StartGame/welbtn.png", "res/StartGame/welbtn.png", "res/StartGame/welbtn.png", this.startGame, this),
+            startButton = new cc.Menu(startMenu);
+
         linkChain.attr({
             "x" : centerX,
             "y" : 200
         });
-
         startButton.attr({
             "x" : linkChain.width / 2,
             "y" : linkChain.height / 2 - 30,
             "width" : 199,
             "height" : 100
         });
-
-
         linkChain.addChild(startButton);     //插入linkChain节点
-
         var linkFall = cc.moveBy(0.6, 0, -60).easing(cc.easeBounceOut(2));                 //链条动画
         linkChain.runAction(cc.sequence(
             linkFall
@@ -95,6 +90,7 @@ var StartScene = cc.Scene.extend({
     },
     startGame : function() {
         console.log("游戏开始...加载资源");
+        cc.director.runScene(new SelectScene());     //切换关卡选择场景
     }
 })
 
