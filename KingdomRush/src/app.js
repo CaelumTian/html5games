@@ -19,7 +19,7 @@ var StartScene = cc.Scene.extend({
         });
         var bgAction = cc.fadeIn(0.8, 255);      //淡入0.8s
         bg.runAction(cc.sequence(
-            cc.delayTime(0.5),
+            cc.delayTime(0.3),
             bgAction
         ));
         this.addChild(bg);
@@ -91,6 +91,9 @@ var StartScene = cc.Scene.extend({
     startGame : function() {
         console.log("游戏开始...加载资源");
         cc.director.runScene(new SelectScene());     //切换关卡选择场景
+    },
+    onExit : function() {
+        this.removeAllChildren();
     }
 })
 

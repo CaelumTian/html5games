@@ -6,6 +6,7 @@
 var resSelectScene = [
     "res/SelectSceen/backToIndex.png",       //回到首页图片
     "res/SelectSceen/flag.png",
+    "res/SelectSceen/flag1.png",
     "res/SelectSceen/gkxz.png",
     "res/SelectSceen/gushimoshi.png",
     "res/SelectSceen/heroIcon.png",
@@ -22,18 +23,18 @@ var GameMission = (function() {
     };
     /**所有关卡当前状态(小旗旗)*/
     GameMission.data = [
-        { "xpos": 250, "ypos": 80, "ispass": false },
-        { "xpos": 325, "ypos": 102, "ispass": false },
-        { "xpos": 325, "ypos": 162, "ispass": false },
-        { "xpos": 250, "ypos": 188, "ispass": false },
-        { "xpos": 140, "ypos": 225, "ispass": false },
-        { "xpos": 270, "ypos": 344, "ispass": false },
-        { "xpos": 427, "ypos": 274, "ispass": false },
-        { "xpos": 505, "ypos": 370, "ispass": false },
-        { "xpos": 603, "ypos": 320, "ispass": false },
-        { "xpos": 550, "ypos": 238, "ispass": false },
-        { "xpos": 490, "ypos": 188, "ispass": false },
-        { "xpos": 480, "ypos": 96, "ispass": false }
+        { "xpos": 267, "ypos": 379, "ispass": false },
+        { "xpos": 341, "ypos": 351, "ispass": false },
+        { "xpos": 343, "ypos": 294, "ispass": false },
+        { "xpos": 265, "ypos": 243, "ispass": false },
+        { "xpos": 131, "ypos": 226, "ispass": false },
+        { "xpos": 270, "ypos": 125, "ispass": false },
+        { "xpos": 430, "ypos": 189, "ispass": false },
+        { "xpos": 521, "ypos": 81, "ispass": false },
+        { "xpos": 643, "ypos": 152, "ispass": false },
+        { "xpos": 564, "ypos": 225, "ispass": false },
+        { "xpos": 517, "ypos": 283, "ispass": false },
+        { "xpos": 497, "ypos": 360, "ispass": false }
     ];
     return GameMission;
 })();

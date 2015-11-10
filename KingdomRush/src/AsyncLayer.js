@@ -120,6 +120,7 @@ var AsyncLayer = cc.Layer.extend({
             function (result, count, loadedCount) {
                 var percent = (loadedCount / count * 100) | 0;
                 percent = Math.min(percent, 100) / 100;
+                //cc.rect貌似以左上角作为起点画出来的
                 self._loadbartop.setTextureRect(cc.rect(0, 0, self._loadLength * percent, self._loadHeight));
                 console.log(self._loadLength * percent);
 
@@ -140,18 +141,19 @@ var AsyncLayer = cc.Layer.extend({
             loadbgAction = cc.fadeOut(0.1),
             bglAction = cc.moveTo(0.6, cc.p(0, centerY)).easing(cc.easeInOut(2)),
             bgrAction = cc.moveTo(0.6, cc.p(cc.winSize.width, centerY)).easing(cc.easeInOut(2));
-        this.scheduleOnce(function() {
-            this._loadbartop.runAction(loadtopAction);
-            this._loadbarbg.runAction(loadbgAction);
-            this._loadbgl.runAction(bglAction);
-            this._loadbgr.runAction(cc.sequence(
-                bgrAction,
-                cc.callFunc(this.removeLoarLayer, this)                      //load层关闭后，删除层
-            ));
-        }, 0.4);
+        this._loadbartop.runAction(loadtopAction);
+        this._loadbarbg.runAction(loadbgAction);
+        this._loadbgl.runAction(bglAction);
+        this._loadbgr.runAction(cc.sequence(
+            bgrAction,
+            cc.callFunc(this.removeLoarLayer, this)                      //load层关闭后，删除层
+        ));
     },
     removeLoarLayer : function() {
         this.removeFromParent();              //删除本layer
+    },
+    onExit : function() {
+        this.removeAllChildren();
     }
 });
 
