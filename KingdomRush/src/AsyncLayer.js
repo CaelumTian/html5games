@@ -15,6 +15,7 @@ var AsyncLayer = cc.Layer.extend({
     _res : [],
     _loadLength : 0,
     _loadHeight : 0,
+    _target : null,           //保存舞台this的引用(有没有更好的方法)
     ctor : function() {
         this._super();
         this._loadbgl = new cc.Sprite(res.loadbg);
@@ -57,7 +58,7 @@ var AsyncLayer = cc.Layer.extend({
         });
 
         var bglAction = cc.moveTo(0.6, cc.p(centerX, centerY)).easing(cc.easeInOut(2)),
-            bgrAction = cc.moveTo(0.6, cc.p(centerX, centerY)).easing(cc.easeInOut(2));
+            bgrAction = cc.moveTo(0.6, cc.p(centerX, centerY)).easing(cc.easeInOut(2));    //动作不能合并，每个精灵对应一个动作，不能共享。
 
 
         this._loadbgl.addChild(this._loadl);
@@ -69,14 +70,15 @@ var AsyncLayer = cc.Layer.extend({
         this.addChild(this._loadbgr);
         this.addChild(this._loadbgl);
     },
-    initWithResources : function(res) {
+    initWithResources : function(res, cb, target) {
         var centerX = cc.winSize.width / 2,
             self = this,
             loadPosY = 100,
             loadBarBorder = 8,                                //8像素边框
             loadBarHeight = this._loadbarbg.height;
         self._res = res;                                      //设置资源数组
-
+        self._cb = cb;
+        self._target = target;
         this._loadbarbg.attr({
             "x" : centerX,
             "y" : loadPosY,
@@ -122,18 +124,34 @@ var AsyncLayer = cc.Layer.extend({
                 console.log(self._loadLength * percent);
 
             }, function () {
-                self._loadbartop.setTextureRect(cc.rect(0, 0, self._loadLength, self._loadHeight));
-                console.log("数据加载完毕,开始调用回调函数");
-                if (self._cb) {
-                    self._cb.call();
+                if(!self._cb) {
+                    throw new Error("没有回调函数");
                 }
+                console.log("数据加载完毕,开始调用回调函数");
+                self._loadbartop.setTextureRect(cc.rect(0, 0, self._loadLength, self._loadHeight));
+                self._cb(self._target);                                     //回调舞台加载舞台元素
+                self.hideLoadBar();
             });
     },
-    showLoadBar : function() {
-
-    },
     hideLoadBar : function() {
-
+        var centerX = cc.winSize.width / 2,
+            centerY = cc.winSize.height / 2,
+            loadtopAction = cc.fadeOut(0.1),
+            loadbgAction = cc.fadeOut(0.1),
+            bglAction = cc.moveTo(0.6, cc.p(0, centerY)).easing(cc.easeInOut(2)),
+            bgrAction = cc.moveTo(0.6, cc.p(cc.winSize.width, centerY)).easing(cc.easeInOut(2));
+        this.scheduleOnce(function() {
+            this._loadbartop.runAction(loadtopAction);
+            this._loadbarbg.runAction(loadbgAction);
+            this._loadbgl.runAction(bglAction);
+            this._loadbgr.runAction(cc.sequence(
+                bgrAction,
+                cc.callFunc(this.removeLoarLayer, this)                      //load层关闭后，删除层
+            ));
+        }, 0.4);
+    },
+    removeLoarLayer : function() {
+        this.removeFromParent();              //删除本layer
     }
 });
 
