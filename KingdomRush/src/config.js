@@ -11,7 +11,10 @@ var resSelectScene = [
     "res/SelectSceen/gushimoshi.png",
     "res/SelectSceen/heroIcon.png",
     "res/SelectSceen/map.jpg",
-    "res/SelectSceen/wujinmoshi.png"
+    "res/SelectSceen/wujinmoshi.png",
+    "res/SelectSceen/NumFontda.png",
+    "res/SelectSceen/NumFontda.fnt",
+    "res/SelectSceen/xx.png"
 ];
 
 /*关卡数据界面*/
