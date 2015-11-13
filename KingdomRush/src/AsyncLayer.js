@@ -15,7 +15,7 @@ var AsyncLayer = cc.Layer.extend({
     _res : [],
     _loadLength : 0,
     _loadHeight : 0,
-    _target : null,           //保存舞台this的引用(有没有更好的方法)
+    _obj : null,           //保存舞台this的引用(有没有更好的方法)
     ctor : function() {
         this._super();
         this._loadbgl = new cc.Sprite(res.loadbg);
@@ -78,7 +78,7 @@ var AsyncLayer = cc.Layer.extend({
             loadBarHeight = this._loadbarbg.height;
         self._res = res;                                      //设置资源数组
         self._cb = cb;
-        self._target = target;
+        self._obj = target;
         this._loadbarbg.attr({
             "x" : centerX,
             "y" : loadPosY,
@@ -130,7 +130,7 @@ var AsyncLayer = cc.Layer.extend({
                 }
                 console.log("数据加载完毕,开始调用回调函数");
                 self._loadbartop.setTextureRect(cc.rect(0, 0, self._loadLength, self._loadHeight));
-                self._cb(self._target);                                     //回调舞台加载舞台元素
+                self._cb(self._obj);                                     //回调舞台加载舞台元素
                 self.hideLoadBar();
             });
     },

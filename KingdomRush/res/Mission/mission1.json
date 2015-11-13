@@ -1,0 +1,19 @@
+{
+  "missionId" : "1",
+  "roadArr" : [
+      [[812, 241], [584, 241], [484, 141], [304, 141], [214, 241], [24, 241]],
+      [[812, 263], [584, 263], [484, 363], [304, 363], [214, 263], [24, 263]]
+  ],
+  "enemyData" : [
+      { "type": "Monster01", "count": 10, "life": 10, "maxSpeed": 0.4, "damage": 2, "value": 10 },
+      { "type": "Monster02", "count": 10, "life": 10, "maxSpeed": 0.8, "damage": 2, "value": 10 },
+      { "type": "Monster03", "count": 15, "life": 15, "maxSpeed": 0.4, "damage": 4, "value": 15 },
+      { "type": "Monster04", "count": 15, "life": 20, "maxSpeed": 0.7, "damage": 4, "value": 15 },
+      { "type": "Monster05", "count": 20, "life": 25, "maxSpeed": 0.4, "damage": 8, "value": 20 },
+      { "type": "Monster06", "count": 20, "life": 30, "maxSpeed": 0.4, "damage": 8, "value": 20 },
+      { "type": "Boss01", "count": 2, "life": 300, "maxSpeed": 0.4, "damage": 16, "value": 500 }
+  ],
+  "res" : [
+
+  ]
+}
