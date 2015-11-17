@@ -11,7 +11,7 @@ var MonsterBase = cc.Sprite.extend({
     _walkF : null,
     _walkB : null,
     _walkX : null,
-    _rightFlag : true,             //默认向右方式
+    _direct : "right",             //默认向右方式
     ctor : function(plistRes, pngRes, defaultImg, prefix) {
         cc.spriteFrameCache.addSpriteFrames(plistRes);
         cc.SpriteBatchNode.create(pngRes);
@@ -39,16 +39,18 @@ MonsterBase.prototype.changeWalkState = function(state) {
     switch(state) {
         case "go_right" :
             this.stopAllActions();
-            if(!this._rightFlag) {
-                this.scaleX = -1;
+            if(this._direct === "left") {
+                this.scaleX = 1;
+                this._direct = "right";
             }
             this._walkX.setDelayPerUnit(1 / 12);
             animate = cc.animate(this._walkX).repeatForever();
             break;
         case "go_left" :
             this.stopAllActions();
-            if(this._rightFlag) {
+            if(this._direct === "right") {
                 this.scaleX = -1;
+                this._direct = "left";
             }
             this._walkX.setDelayPerUnit(1 / 12);
             animate = cc.animate(this._walkX).repeatForever();
