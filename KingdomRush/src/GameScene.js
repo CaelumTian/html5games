@@ -1,18 +1,17 @@
 /**
  * Created by CaelumTian on 2015/11/11.
  */
-
-var monster = null;
+var monsterList = [];
 var GameScene = cc.Scene.extend({
     _gameData : null,
     _count : 0,                 //怪物计数器
     _tick : 0,                  //攻击波数
-    _monster : null,            //怪物请做成数组
+    _monsterList : [],            //怪物请做成数组
     ctor : function(num) {
         this._super();
         var self = this;
         console.log("当前关卡：" + num);
-
+        this._missionNum = num;
         var layer = new AsyncLayer();     //加载关卡选择场景
         this.addChild(layer, 2);
         cc.loader.loadJson("res/Mission/mission" + num + ".json", function(err, result) {
@@ -30,19 +29,47 @@ var GameScene = cc.Scene.extend({
         self.scheduleUpdate();
     },
     update : function() {
-        this.monster.move();
+        for(var i = 0, cur; cur = this._monsterList[i++];) {
+            cur.move();
+        }
     },
     _setMonster : function() {
-        var arr = this._gameData["roadArr"][0];   //路经坐标
-        monster = this.monster = new Monster1();
-        this.monster.setPos(arr);
-        this.addChild(this.monster);
+        var road = this._gameData["roadArr"];   //路经1坐标
+        var enemyData = this._gameData["enemyData"][this._tick];     //敌人数据
+
+        var count = enemyData["count"];
+        var arr = [];
+        for(var i = 0; i < count; i++) {
+            var monster = new Monster1();
+            monster._life = enemyData["life"];        //怪物血
+            monster._speed = enemyData["maxSpeed"];   //怪物速度
+            arr.push(monster);                        //构造怪物组
+        }
+
+        console.log(arr);
+        var curr_time = 0;
+        var roadLength = road.length;
+
+        this.schedule(addEnemy, 1);
+        function addEnemy() {
+            if(curr_time < count) {
+                var currEnemy = arr[curr_time],
+                    currRoad = road[curr_time % roadLength];
+                currEnemy.setPos(currRoad);
+                this.addChild(currEnemy);              //插入怪物
+                curr_time++;
+                this._monsterList.push(currEnemy);     //添加怪物
+            }else {
+                monsterList = this._monsterList;
+                this.unschedule(addEnemy);             //取消定时器
+            }
+        }
     },
     _setMap : function() {
         var centerX = cc.winSize.width / 2,
             centerY = cc.winSize.height / 2;
 
-        var map = new cc.Sprite("res/Map/map1.jpg");
+        var map = new cc.Sprite("res/Map/map" + this._missionNum + ".jpg");
         map.attr({
             "x" : centerX,
             "y" : centerY

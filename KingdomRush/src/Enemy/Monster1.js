@@ -7,6 +7,7 @@ var Monster1 = MonsterBase.extend({
     _tick : 1,            //移动位置跳数
     ctor : function() {
         this._super("res/Enemy/monster1.plist", "res/Enemy/monster1.png", "#m1-x-walk1.png", "m1");
+        this._posArr = [];      //数组一定要初始化
     },
     setPos : function(arr) {
         var offy = Math.round(10 - Math.random() * 20); //Y坐标随机错开
