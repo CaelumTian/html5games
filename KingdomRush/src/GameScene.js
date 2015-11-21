@@ -71,13 +71,39 @@ var GameScene = cc.Scene.extend({
 
         var map = new cc.Sprite("res/Map/map" + this._missionNum + ".jpg");
         map.attr({
-            "x" : centerX,
-            "y" : centerY
+            "x": centerX,
+            "y": centerY
         });
         this.addChild(map);              //最优先加载地图
+
+        var backToMaps = new cc.MenuItemImage("res/Mission/backToMaps.png", "res/Mission/backToMaps.png", "res/Mission/backToMaps.png", this._backToMaps, this);
+        var backToMapsButton = new cc.Menu(backToMaps);
+        backToMapsButton.attr({
+            "x" : 757,
+            "y" : cc.winSize.height + 36
+        });
+        backToMapsButton.runAction(cc.sequence(
+            cc.delayTime(1),
+            cc.moveTo(0.6, cc.p(757, 450)).easing(cc.easeInOut(2))
+        ));
+        var uiInfo = new cc.Sprite("res/Mission/uiinfo.png");
+        uiInfo.attr({
+            "x" : 96,
+            "y" : cc.winSize.height + 54
+        });
+        uiInfo.runAction(cc.sequence(
+            cc.delayTime(1),
+            cc.moveTo(0.6, cc.p(96, 440))).easing(cc.easeInOut(2)
+        ));
+        this.addChild(backToMapsButton);
+        this.addChild(uiInfo);
     },
     onExit : function() {
         console.log("这里被执行了");
+        cc.spriteFrameCache.removeSpriteFrames();     //清除缓存池精灵
         this.removeAllChildren();          //切换场景前移除所有节点
     }
 });
+GameScene.prototype._backToMaps = function() {
+    cc.director.runScene(new SelectScene());
+};
