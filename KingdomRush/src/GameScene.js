@@ -1,6 +1,7 @@
 /**
  * Created by CaelumTian on 2015/11/11.
  */
+var monster;
 var monsterList = [];
 var GameScene = cc.Scene.extend({
     _gameData : null,
@@ -24,6 +25,7 @@ var GameScene = cc.Scene.extend({
     },
     _init : function(target) {
         var self = target;
+
         self._setMap();
         self._setMonster();
         self.scheduleUpdate();
@@ -68,7 +70,6 @@ var GameScene = cc.Scene.extend({
     _setMap : function() {
         var centerX = cc.winSize.width / 2,
             centerY = cc.winSize.height / 2;
-
         var map = new cc.Sprite("res/Map/map" + this._missionNum + ".jpg");
         map.attr({
             "x": centerX,
